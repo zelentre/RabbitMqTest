@@ -20,7 +20,7 @@ class RabbitMqTestApplicationTests {
         //使用convertAndSend方法一步到位，参数基本和之前是一样的
         //最后一个消息本体可以是Object类型，真是大大的方便
 //        template.convertAndSend("amq.direct", "my-mes", new Mes(1,"233"));
-        Object o = template.convertSendAndReceive("amq.direct", "my-mes", new Mes());
+        Object o = template.convertSendAndReceive("amq.direct", "my-mes", new Mes(1,"233"));
         log.info("收到消费者响应：{}", o);
     }
 
