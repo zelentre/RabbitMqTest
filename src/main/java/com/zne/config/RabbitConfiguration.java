@@ -1,10 +1,14 @@
 package com.zne.config;
 
 import org.springframework.amqp.core.*;
+import org.springframework.amqp.rabbit.config.SimpleRabbitListenerContainerFactory;
+import org.springframework.amqp.rabbit.connection.CachingConnectionFactory;
 import org.springframework.amqp.support.converter.Jackson2JsonMessageConverter;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+
+import javax.annotation.Resource;
 
 /**
  * @author ZNE
@@ -12,6 +16,19 @@ import org.springframework.context.annotation.Configuration;
  */
 @Configuration
 public class RabbitConfiguration {
+
+    @Resource
+    private CachingConnectionFactory cachingConnectionFactory;
+
+    @Bean
+    public SimpleRabbitListenerContainerFactory listenerContainerFactory() {
+        SimpleRabbitListenerContainerFactory simpleRabbitListenerContainerFactory = new SimpleRabbitListenerContainerFactory();
+        simpleRabbitListenerContainerFactory.setConnectionFactory(cachingConnectionFactory);
+        //将PrefetchCount设定为1表示一次只能取一个
+        simpleRabbitListenerContainerFactory.setPrefetchCount(1);
+        return simpleRabbitListenerContainerFactory;
+    }
+
     /**
      * 定义交换机Bean，可以很多个
      */
@@ -29,10 +46,10 @@ public class RabbitConfiguration {
                 //非持久化类型
                 .nonDurable("mes")
                 //指定死信交换机
-                .deadLetterExchange("dlx.direct")
+//                .deadLetterExchange("dlx.direct")
                 //指定死信RoutingKey
-                .deadLetterRoutingKey("dl-mes")
-                .ttl(5000)
+//                .deadLetterRoutingKey("dl-mes")
+//                .ttl(5000)
                 .build();
     }
 

@@ -20,12 +20,21 @@ public class RabbitListen {
 //    @RabbitListener(queues = "mes", messageConverter = "jacksonConverter")
     public String test(Mes mes) {
         log.info("开始消费消息：{}", mes);
-//        return "{\"body\":\"success\"}";
         return "消费成功！";
     }
 
     @RabbitListener(queues = "dl-mes", messageConverter = "jacksonConverter")
     public void receiver(Mes mes) {
         log.info("死信队列开始消费消息：{}", mes);
+    }
+
+    @RabbitListener(queues = "mes")
+    public void receiver(String data) {
+        log.info("一号消息队列监听器:{}", data);
+    }
+
+    @RabbitListener(queues = "mes")
+    public void receiver2(String data) {
+        log.info("二号消息队列监听器:{}", data);
     }
 }

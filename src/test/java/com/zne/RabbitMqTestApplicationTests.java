@@ -1,6 +1,5 @@
 package com.zne;
 
-import com.zne.entity.Mes;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.Test;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
@@ -20,7 +19,7 @@ class RabbitMqTestApplicationTests {
         //使用convertAndSend方法一步到位，参数基本和之前是一样的
         //最后一个消息本体可以是Object类型，真是大大的方便
 //        template.convertAndSend("amq.direct", "my-mes", new Mes(1,"233"));
-        Object o = template.convertSendAndReceive("amq.direct", "my-mes", new Mes(1,"233"));
+        Object o = template.convertSendAndReceive("amq.direct", "my-mes", "233");
         log.info("收到消费者响应：{}", o);
     }
 
