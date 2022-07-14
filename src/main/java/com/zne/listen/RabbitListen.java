@@ -17,7 +17,7 @@ public class RabbitListen {
     /**
      * 定义此方法为队列mes的监听器，一旦监听到新的消息，就会接受并处理
      */
-//    @RabbitListener(queues = "mes", messageConverter = "jacksonConverter")
+    @RabbitListener(queues = "mes", messageConverter = "jacksonConverter")
     public String test(Mes mes) {
         log.info("开始消费消息：{}", mes);
         return "消费成功！";
